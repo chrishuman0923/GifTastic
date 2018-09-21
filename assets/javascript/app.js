@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var topics = ["dog", "cat", "bird", "horse", "snake", "rabbit", "wolf", "pig", "moose"],
+    var topics = ["dog", "cat", "bird", "horse", "snake", "rabbit", "wolf", "otter"],
         $buttonDiv = $("#buttons"),
         $gifsDiv = $("#gifs");
 
@@ -17,7 +17,7 @@ $(document).ready(function() {
                 animalText = topicsSort[i];
 
             //adds attributes and text to the button
-            newBtn.attr({"data-animal": animalText, "class": "animalBtn"}).text(animalText);
+            newBtn.attr({"data-animal": animalText, "class": "btn btn-success animalBtn"}).text(animalText);
 
             //appends the new button to the DOM
             $buttonDiv.append(newBtn);
@@ -49,13 +49,13 @@ $(document).ready(function() {
                     gifRating = respGifs[i].rating;
 
                 //sets attributes to the new image
-                newGif.attr({"src": gifStill, "data-still": gifStill, "data-active": gifActive, "data-status": "still", "class": "animalGif"});
+                newGif.attr({"src": gifStill, "data-still": gifStill, "data-active": gifActive, "data-status": "still", "class": "img-fluid animalGif"});
 
                 //adds class and text to the new paragraph
-                para.html('Rating: <span class="gifRating">' + gifRating + "</span>");
+                para.html('Rating: <span class="gifRating">' + gifRating + "</span>").addClass("gifLabel");
 
                 //appends image and paragraph to new div
-                newDiv.append(newGif, para);
+                newDiv.append(newGif, para).addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
                 $gifsDiv.append(newDiv);              
