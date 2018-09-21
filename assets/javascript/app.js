@@ -38,15 +38,24 @@ $(document).ready(function() {
             //Loops through the images returned
             for (var i = 0; i < respGifs.length; i++) {
                 //creates a new image
-                var newGif = $("<img>"),
+                var newDiv = $("<div>"),
+                    newGif = $("<img>"),
                     gifStill = respGifs[i].images.fixed_width_still.url,
-                    gifActive = respGifs[i].images.fixed_width.url;
+                    gifActive = respGifs[i].images.fixed_width.url,
+                    para = $("<p>"),
+                    gifRating = respGifs[i].rating;
 
                 //sets attributes to the new image
                 newGif.attr({"src": gifStill, "data-still": gifStill, "data-active": gifActive, "data-status": "still", "class": "animalGif"});
 
-                //appends the image to the DOM
-                $gifsDiv.append(newGif);                
+                //adds class and text to the new paragraph
+                para.html('Rating: <span class="gifRating">' + gifRating + "</span>");
+
+                //appends image and paragraph to new div
+                newDiv.append(newGif, para);
+
+                //appends the image and the paragraph to the DOM
+                $gifsDiv.append(newDiv);              
             }
         }).catch(function(error) {
             //catches the error returned by the ajax call and logs it
