@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var topics = ["dog", "cat", "bird", "horse", "snake", "frog", "rabbit", "wolf", "pig", "cow"],
+    var topics = ["dog", "cat", "bird", "horse", "snake", "rabbit", "wolf", "pig", "moose"],
         $buttonDiv = $("#buttons"),
         $gifsDiv = $("#gifs");
 
@@ -7,11 +7,14 @@ $(document).ready(function() {
         //empty the div
         $buttonDiv.empty();
 
+        //sorts array alphabetically
+        var topicsSort = topics.sort();
+
         //loops through the array of topics
-        for (var i = 0; i < topics.length; i++) {
+        for (var i = 0; i < topicsSort.length; i++) {
             //creates a new button elem
             var newBtn = $("<button>"),
-                animalText = topics[i];
+                animalText = topicsSort[i];
 
             //adds attributes and text to the button
             newBtn.attr({"data-animal": animalText, "class": "animalBtn"}).text(animalText);
@@ -78,6 +81,25 @@ $(document).ready(function() {
         }
     }
 
+    function addAnimal() {
+        //prevent page from refreshing
+        event.preventDefault();
+
+        //get input field and standardize
+        var newAnimal = $("#animalInput").val().trim().toLowerCase();
+
+        //add value to array, if it hasn't been already
+        if (topics.indexOf(newAnimal) === -1) {
+            topics.push(newAnimal);
+        }
+
+        //Empty input field
+        $("#animalInput").val("");
+
+        //re-create buttons array
+        createBtns();
+    }
+
     //Event delegation for buttons
     $(document).on("click", ".animalBtn", function() {
         //passes attribute value into function
@@ -86,6 +108,9 @@ $(document).ready(function() {
 
     //Event delegation for animating gifs when clicked
     $(document).on("click", ".animalGif", animateGif);
+
+    //Adds click handler to submit button
+    $("#submitBtn").on("click", addAnimal);
 
     createBtns();
 });
