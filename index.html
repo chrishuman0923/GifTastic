@@ -8,11 +8,22 @@
         <title>GifTastic!</title>
     </head>
     <body>
-        <div id="buttons">
+        <div class="container">
+            <h1>GifTastic!</h1>
+            <h2>Gif Image Generator</h2>
+            <form>
+                <div class="form-group">
+                    <label for="animalInput">Enter Animal:</label>
+                    <input class="form-control" id="animalInput">
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+            </form>
             <!-- Container for the buttons -->
+            <div id="buttons">
+            </div>
         </div>
+        <!-- Container for the Gifs -->
         <div id="gifs">
-            <!-- Container for the Gifs -->
         </div>
 
         <!-- JQuery CDN -->
