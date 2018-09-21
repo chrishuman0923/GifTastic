@@ -1,3 +1,9 @@
 .gifRating {
     text-transform: uppercase;
 }
+
+.animalBtn {
+    margin-right: 20px;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+}
