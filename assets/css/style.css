@@ -1,9 +1,52 @@
+body {
+    background-color: lightgrey;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+    border: 5px #007bff dashed;
+    padding: 10px;
+}
+
+#buttons {
+    margin-bottom: 15px;
+    border: 5px #28a745 dashed;
+}
+
+label {
+    font-weight: bold;
+}
+
 .gifRating {
     text-transform: uppercase;
 }
 
 .animalBtn {
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin: 10px;
     text-transform: capitalize;
+}
+
+p {
+    font-weight: bold;
+}
+
+.gifDiv {
+    float: left;
+    margin: 20px 20px 0 0;
+    border: 3px black solid;
+    padding: 5px;
+}
+
+.animalGif {
+    height: 200px;
+}
+
+.gifLabel {
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-align: center;
 }
