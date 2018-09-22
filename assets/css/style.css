@@ -45,6 +45,10 @@ p {
     height: 200px;
 }
 
+.animalGif:hover {
+    cursor: pointer;
+}
+
 .gifLabel {
     margin-top: 5px;
     margin-bottom: 0;
