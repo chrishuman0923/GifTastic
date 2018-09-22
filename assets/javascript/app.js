@@ -195,9 +195,9 @@ $(document).ready(function() {
 
         //get input field and standardize
         var newAnimal = $("#animalInput").val().trim().toLowerCase();
-
+        
         //add value to array, if it hasn't been already
-        if (topics.indexOf(newAnimal) === -1 && newAnimal.length() > 0) {
+        if (topics.indexOf(newAnimal) === -1 && newAnimal.length > 0) {
             topics.push(newAnimal);
         }
 
