@@ -1,3 +1,4 @@
+//waits till DOM is ready before running any JS
 $(document).ready(function() {
     var topics = ["dog", "cat", "bird", "horse", "snake", "rabbit", "wolf", "otter"],
         $elems = {
@@ -11,7 +12,7 @@ $(document).ready(function() {
             lowerLimit: 0,
             upperLimit: 10
         },
-        additionalAnimal;
+        animalRef;
 
     function createBtns() {
         //sorts array alphabetically
@@ -23,15 +24,13 @@ $(document).ready(function() {
         //loops through the array of topics
         for (var i = 0; i < topicsSort.length; i++) {
             //creates a new button elem
-            var newBtn = $("<button>"),
-                animalText = topicsSort[i];
+            var newBtn = $("<button>");
 
             //adds attributes and text to the button
             newBtn.attr({
-                "data-animal": animalText,
+                "data-animal": topicsSort[i],
                 "class": "btn btn-success animalBtn"
-            });
-            newBtn.text(animalText);
+            }).text(topicsSort[i]);
 
             //appends the new button to the DOM
             $elems.btnDiv.append(newBtn);
@@ -53,9 +52,9 @@ $(document).ready(function() {
             ].join("");
 
         //sets variable so additional gifs can be added of the same animal
-        additionalAnimal = animal;
+        animalRef = animal;
 
-        //Makes additional gif button visible
+        //Makes additional gif button visible, if it is hidden
         if ($elems.addBtn.is(":hidden") == true) {
             $elems.addBtn.show();
         }
@@ -94,14 +93,11 @@ $(document).ready(function() {
 
                 //adds class and text to the new paragraphs
                 newElems.rating.html('Rating: <span class="gifRating">' +
-                                    respGifs[i].rating + "</span>");
-                newElems.rating.addClass("gifLabel");
-                newElems.title.text(title);
-                newElems.title.addClass("gifTitle");
+                                    respGifs[i].rating + "</span>").addClass("gifLabel");
+                newElems.title.text(title).addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newElems.div.append(newElems.title, newElems.img, newElems.rating);
-                newElems.div.addClass("gifDiv");
+                newElems.div.append(newElems.title, newElems.img, newElems.rating).addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
                 $elems.gifsDiv.append(newElems.div);              
@@ -157,13 +153,11 @@ $(document).ready(function() {
 
                 //adds class and text to the new paragraph
                 newElems.rating.html('Rating: <span class="gifRating">' +
-                            respGifs[i].rating + "</span>");
-                newElems.rating.addClass("gifLabel");
+                                    respGifs[i].rating + "</span>").addClass("gifLabel");
                 newElems.title.text(title).addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newElems.div.append(newElems.title, newElems.img, newElems.rating)
-                newElems.div.addClass("gifDiv");
+                newElems.div.append(newElems.title, newElems.img, newElems.rating).addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
                 $elems.gifsDiv.prepend(newElems.div);             
@@ -229,7 +223,7 @@ $(document).ready(function() {
     //Adds click handler to additional gifs button
     $(document).on("click", "#addBtn", function() {
         //passes attribute value into function
-        additionalGifs(additionalAnimal);
+        additionalGifs(animalRef);
     });
 
     //hide additional button initially
