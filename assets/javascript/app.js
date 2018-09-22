@@ -7,7 +7,7 @@ $(document).ready(function() {
         },
         url = {
             addr: "https://api.giphy.com/v1/gifs/search?q=",
-            apiKey: "fzMl3W1ysk8S6fEQQBU0T8uvRN7cFFf8",
+            apiKey: "&api_key=fzMl3W1ysk8S6fEQQBU0T8uvRN7cFFf8",
             lowerLimit: 0,
             upperLimit: 10
         },
@@ -47,7 +47,6 @@ $(document).ready(function() {
         var giphyURL = [
                 url.addr,
                 animal,
-                "&api_key=",
                 url.apiKey,
                 "&limit=",
                 url.upperLimit
@@ -74,16 +73,18 @@ $(document).ready(function() {
             //Loops through the images returned
             for (var i = url.lowerLimit; i < respGifs.length; i++) {
                 //creates a new image
-                var newDiv = $("<div>"),
-                    newGif = $("<img>"),
+                var newElems = {
+                        div: $("<div>"),
+                        img: $("<img>"),
+                        rating: $("<p>"),
+                        title: $("<p>")
+                    },
                     gifStill = respGifs[i].images.fixed_width_still.url,
                     gifActive = respGifs[i].images.fixed_width.url,
-                    ratingP = $("<p>"),
-                    titleP = $("<p>"),
                     title = respGifs[i].title.slice(0, -4); //trims off ' GIF' at end of every title
 
                 //sets attributes to the new image
-                newGif.attr({
+                newElems.img.attr({
                     "src": gifStill,
                     "data-still": gifStill,
                     "data-active": gifActive,
@@ -92,18 +93,18 @@ $(document).ready(function() {
                 });
 
                 //adds class and text to the new paragraphs
-                ratingP.html('Rating: <span class="gifRating">' +
-                            respGifs[i].rating + "</span>");
-                ratingP.addClass("gifLabel");
-                titleP.text(title);
-                titleP.addClass("gifTitle");
+                newElems.rating.html('Rating: <span class="gifRating">' +
+                                    respGifs[i].rating + "</span>");
+                newElems.rating.addClass("gifLabel");
+                newElems.title.text(title);
+                newElems.title.addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newDiv.append(titleP, newGif, ratingP);
-                newDiv.addClass("gifDiv");
+                newElems.div.append(newElems.title, newElems.img, newElems.rating);
+                newElems.div.addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $elems.gifsDiv.append(newDiv);              
+                $elems.gifsDiv.append(newElems.div);              
             }
         }).catch(function(error) {
             //catches the error returned by the ajax call and logs it
@@ -120,7 +121,6 @@ $(document).ready(function() {
         var giphyURL = [
                 url.addr,
                 animal,
-                "&api_key=",
                 url.apiKey,
                 "&limit=",
                 url.upperLimit
@@ -136,16 +136,18 @@ $(document).ready(function() {
             //Loops through the images returned
             for (var i = url.lowerLimit; i < respGifs.length; i++) {
                 //creates a new image
-                var newDiv = $("<div>"),
-                    newGif = $("<img>"),
+                var newElems = {
+                        div: $("<div>"),
+                        img: $("<img>"),
+                        rating: $("<p>"),
+                        title: $("<p>")
+                    },
                     gifStill = respGifs[i].images.fixed_width_still.url,
                     gifActive = respGifs[i].images.fixed_width.url,
-                    ratingP = $("<p>"),
-                    titleP = $("<p>"),
                     title = respGifs[i].title.slice(0, -4); //trims off default ' GIF' at end of every title 
 
                 //sets attributes to the new image
-                newGif.attr({
+                newElems.img.attr({
                     "src": gifStill,
                     "data-still": gifStill,
                     "data-active": gifActive,
@@ -154,17 +156,17 @@ $(document).ready(function() {
                 });
 
                 //adds class and text to the new paragraph
-                ratingP.html('Rating: <span class="gifRating">' +
+                newElems.rating.html('Rating: <span class="gifRating">' +
                             respGifs[i].rating + "</span>");
-                ratingP.addClass("gifLabel");
-                titleP.text(title).addClass("gifTitle");
+                newElems.rating.addClass("gifLabel");
+                newElems.title.text(title).addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newDiv.append(titleP, newGif, ratingP)
-                newDiv.addClass("gifDiv");
+                newElems.div.append(newElems.title, newElems.img, newElems.rating)
+                newElems.div.addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $elems.gifsDiv.prepend(newDiv);             
+                $elems.gifsDiv.prepend(newElems.div);             
             }
         }).catch(function(error) {
             //catches the error returned by the ajax call and logs it
