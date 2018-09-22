@@ -4,7 +4,8 @@ $(document).ready(function() {
         $elems = {
            btnDiv: $("#buttons"),
            gifsDiv: $("#gifs"),
-           addBtn: $("#addBtn")
+           addBtn: $("#addBtn"),
+           ratingDropdown: $("#ratingDropdown")
         },
         url = {
             addr: "https://api.giphy.com/v1/gifs/search?q=",
@@ -38,9 +39,19 @@ $(document).ready(function() {
     }
 
     function getGifs(animal) {
+        //prevent page from refreshing
+        event.preventDefault();
+        
+        var rating = "";
+
         //sets original limit and new limit for API request and loop
         url.lowerLimit = 0;
         url.upperLimit = 10;
+        
+        //set rating limiter
+        if ($elems.ratingDropdown.val() !== "All") {
+            rating = $elems.ratingDropdown.val().toLowerCase();
+        }
 
         //sets requested URL
         var giphyURL = [
@@ -48,7 +59,9 @@ $(document).ready(function() {
                 animal,
                 url.apiKey,
                 "&limit=",
-                url.upperLimit
+                url.upperLimit,
+                "&rating=",
+                rating
             ].join("");
 
         //sets variable so additional gifs can be added of the same animal
@@ -109,9 +122,16 @@ $(document).ready(function() {
     }
 
     function additionalGifs(animal) {
+        var rating = "";
+
         //sets original limit and new limit for API request and loop
         url.lowerLimit += 10;
         url.upperLimit += 10;
+
+        //set rating limiter
+        if ($elems.ratingDropdown.val() !== "All") {
+            rating = $elems.ratingDropdown.val();
+        }
 
         //Sets requested URL
         var giphyURL = [
@@ -119,7 +139,9 @@ $(document).ready(function() {
                 animal,
                 url.apiKey,
                 "&limit=",
-                url.upperLimit
+                url.upperLimit,
+                "&rating=",
+                rating
             ].join("");
 
         $.ajax({
@@ -195,7 +217,7 @@ $(document).ready(function() {
 
         //get input field and standardize
         var newAnimal = $("#animalInput").val().trim().toLowerCase();
-        
+
         //add value to array, if it hasn't been already
         if (topics.indexOf(newAnimal) === -1 && newAnimal.length > 0) {
             topics.push(newAnimal);
