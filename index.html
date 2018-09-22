@@ -15,16 +15,29 @@
                     <h2 class="lead">Gif Image Generator</h2>
                 </div>
             </div>
-            <form>
+            <form id="addAnimalForm">
                 <div class="form-group">
                     <label for="animalInput">Enter New Animal:</label>
-                    <input class="form-control" id="animalInput">
+                    <input type="text" class="form-control" id="animalInput">
                 </div>
                 <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
             </form>
             <!-- Container for the buttons -->
-            <div id="buttons">
-            </div>
+            <form id="gifSelector">
+                <div class="form-group" id="ratingSelect">
+                    <label for="ratingDropdown">Gif Rating</label>
+                    <select class="form-control" id="ratingDropdown">
+                        <option>All</option>
+                        <option>G</option>
+                        <option>PG</option>
+                        <option>PG-13</option>
+                        <option>R</option>
+                        <option>NC-17</option>
+                    </select>
+                </div>
+                <div id="buttons">
+                </div>
+            </form>
             <!-- Additional Gifs button -->
             <button type="submit" class="btn btn-danger" id="addBtn">+10 Gifs</button>
             <!-- Container for the Gifs -->
