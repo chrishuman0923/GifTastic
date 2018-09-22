@@ -1,20 +1,24 @@
 $(document).ready(function() {
     var topics = ["dog", "cat", "bird", "horse", "snake", "rabbit", "wolf", "otter"],
-        $buttonDiv = $("#buttons"),
-        $gifsDiv = $("#gifs"),
-        $addBtn = $("#addBtn"),
-        additionalAnimal,
-        requestURL = "https://api.giphy.com/v1/gifs/search?q=",
-        apiKey = "fzMl3W1ysk8S6fEQQBU0T8uvRN7cFFf8",
-        originalLimit,
-        newLimit;
+        $elems = {
+           btnDiv: $("#buttons"),
+           gifsDiv: $("#gifs"),
+           addBtn: $("#addBtn")
+        },
+        url = {
+            addr: "https://api.giphy.com/v1/gifs/search?q=",
+            apiKey: "fzMl3W1ysk8S6fEQQBU0T8uvRN7cFFf8",
+            lowerLimit: 0,
+            upperLimit: 10
+        },
+        additionalAnimal;
 
     function createBtns() {
-        //empty the div
-        $buttonDiv.empty();
-
         //sorts array alphabetically
         var topicsSort = topics.sort();
+
+        //empty the div
+        $elems.btnDiv.empty();
 
         //loops through the array of topics
         for (var i = 0; i < topicsSort.length; i++) {
@@ -23,61 +27,83 @@ $(document).ready(function() {
                 animalText = topicsSort[i];
 
             //adds attributes and text to the button
-            newBtn.attr({"data-animal": animalText, "class": "btn btn-success animalBtn"}).text(animalText);
+            newBtn.attr({
+                "data-animal": animalText,
+                "class": "btn btn-success animalBtn"
+            });
+            newBtn.text(animalText);
 
             //appends the new button to the DOM
-            $buttonDiv.append(newBtn);
+            $elems.btnDiv.append(newBtn);
         }
     }
 
     function getGifs(animal) {
-        originalLimit = 0;
-        newLimit = 10;
+        //sets original limit and new limit for API request and loop
+        url.lowerLimit = 0;
+        url.upperLimit = 10;
 
-        var giphyURL = requestURL + animal + "&api_key=" + apiKey + "&limit=" + newLimit;
+        //sets requested URL
+        var giphyURL = [
+                url.addr,
+                animal,
+                "&api_key=",
+                url.apiKey,
+                "&limit=",
+                url.upperLimit
+            ].join("");
 
         //sets variable so additional gifs can be added of the same animal
         additionalAnimal = animal;
 
-        //,makes additional button visible
-        if ($addBtn.is(":hidden") == true) {
-            $addBtn.show();
+        //Makes additional gif button visible
+        if ($elems.addBtn.is(":hidden") == true) {
+            $elems.addBtn.show();
         }
+
         $.ajax({
             url: giphyURL,
             method: "GET"
         }).then(function(response) {
-            //after a successful returned response
-            //empty the div
-            $gifsDiv.empty();
-
+            //response array
             var respGifs = response.data;
 
+            //empty the div
+            $elems.gifsDiv.empty();
+
             //Loops through the images returned
-            for (var i = originalLimit; i < respGifs.length; i++) {
+            for (var i = url.lowerLimit; i < respGifs.length; i++) {
                 //creates a new image
                 var newDiv = $("<div>"),
                     newGif = $("<img>"),
                     gifStill = respGifs[i].images.fixed_width_still.url,
                     gifActive = respGifs[i].images.fixed_width.url,
                     ratingP = $("<p>"),
-                    gifRating = respGifs[i].rating,
                     titleP = $("<p>"),
-                    title = respGifs[i].title.slice(0, -4); //trims off default ' GIF' at end of every title
+                    title = respGifs[i].title.slice(0, -4); //trims off ' GIF' at end of every title
 
                 //sets attributes to the new image
-                newGif.attr({"src": gifStill, "data-still": gifStill, "data-active": gifActive, "data-status": "still", "class": "img-fluid animalGif"});
+                newGif.attr({
+                    "src": gifStill,
+                    "data-still": gifStill,
+                    "data-active": gifActive,
+                    "data-status": "still",
+                    "class": "img-fluid animalGif"
+                });
 
-                //adds class and text to the new paragraph
-                ratingP.html('Rating: <span class="gifRating">' + gifRating + "</span>").addClass("gifLabel");
-                titleP.text(title).addClass("gifTitle");
-                
+                //adds class and text to the new paragraphs
+                ratingP.html('Rating: <span class="gifRating">' +
+                            respGifs[i].rating + "</span>");
+                ratingP.addClass("gifLabel");
+                titleP.text(title);
+                titleP.addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newDiv.append(titleP, newGif, ratingP).addClass("gifDiv");
+                newDiv.append(titleP, newGif, ratingP);
+                newDiv.addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $gifsDiv.append(newDiv);              
+                $elems.gifsDiv.append(newDiv);              
             }
         }).catch(function(error) {
             //catches the error returned by the ajax call and logs it
@@ -87,43 +113,58 @@ $(document).ready(function() {
 
     function additionalGifs(animal) {
         //sets original limit and new limit for API request and loop
-        originalLimit = newLimit;
-        newLimit += 10;
+        url.lowerLimit += 10;
+        url.upperLimit += 10;
 
-        var giphyURL = requestURL + animal + "&api_key=" + apiKey + "&limit=" + newLimit;
+        //Sets requested URL
+        var giphyURL = [
+                url.addr,
+                animal,
+                "&api_key=",
+                url.apiKey,
+                "&limit=",
+                url.upperLimit
+            ].join("");
 
         $.ajax({
             url: giphyURL,
             method: "GET"
         }).then(function(response) {
             //after a successful returned response
-
             var respGifs = response.data;
 
             //Loops through the images returned
-            for (var i = originalLimit; i < respGifs.length; i++) {
+            for (var i = url.lowerLimit; i < respGifs.length; i++) {
                 //creates a new image
                 var newDiv = $("<div>"),
                     newGif = $("<img>"),
                     gifStill = respGifs[i].images.fixed_width_still.url,
                     gifActive = respGifs[i].images.fixed_width.url,
                     ratingP = $("<p>"),
-                    gifRating = respGifs[i].rating,
                     titleP = $("<p>"),
                     title = respGifs[i].title.slice(0, -4); //trims off default ' GIF' at end of every title 
 
                 //sets attributes to the new image
-                newGif.attr({"src": gifStill, "data-still": gifStill, "data-active": gifActive, "data-status": "still", "class": "img-fluid animalGif"});
+                newGif.attr({
+                    "src": gifStill,
+                    "data-still": gifStill,
+                    "data-active": gifActive,
+                    "data-status": "still",
+                    "class": "img-fluid animalGif"
+                });
 
                 //adds class and text to the new paragraph
-                ratingP.html('Rating: <span class="gifRating">' + gifRating + "</span>").addClass("gifLabel");
+                ratingP.html('Rating: <span class="gifRating">' +
+                            respGifs[i].rating + "</span>");
+                ratingP.addClass("gifLabel");
                 titleP.text(title).addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newDiv.append(titleP, newGif, ratingP).addClass("gifDiv");
+                newDiv.append(titleP, newGif, ratingP)
+                newDiv.addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $gifsDiv.prepend(newDiv);             
+                $elems.gifsDiv.prepend(newDiv);             
             }
         }).catch(function(error) {
             //catches the error returned by the ajax call and logs it
@@ -140,9 +181,15 @@ $(document).ready(function() {
 
         //sets the image to animate or still based on current status
         if (gifStatus === "still") {
-            selectedGif.attr({"src": activeURL, "data-status": "active"});
+            selectedGif.attr({
+                "src": activeURL,
+                "data-status": "active"
+            });
         } else {
-            selectedGif.attr({"src": stillURL, "data-status": "still"});
+            selectedGif.attr({
+                "src": stillURL,
+                "data-status": "still"
+            });
         }
     }
 
@@ -184,7 +231,7 @@ $(document).ready(function() {
     });
 
     //hide additional button initially
-    $addBtn.hide();
+    $elems.addBtn.hide();
 
     //create buttons
     createBtns();
