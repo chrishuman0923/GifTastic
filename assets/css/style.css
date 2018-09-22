@@ -6,13 +6,13 @@ h1, h2 {
     text-align: center;
 }
 
-form {
+#addAnimalForm {
     margin-bottom: 20px;
     border: 5px #007bff dashed;
     padding: 10px;
 }
 
-#buttons {
+#gifSelector {
     margin-bottom: 15px;
     border: 5px #28a745 dashed;
 }
@@ -28,6 +28,10 @@ label {
 .animalBtn {
     margin: 10px;
     text-transform: capitalize;
+}
+
+#ratingSelect {
+    margin: 10px;
 }
 
 p {
