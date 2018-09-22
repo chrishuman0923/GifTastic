@@ -60,17 +60,21 @@ $(document).ready(function() {
                     newGif = $("<img>"),
                     gifStill = respGifs[i].images.fixed_width_still.url,
                     gifActive = respGifs[i].images.fixed_width.url,
-                    para = $("<p>"),
-                    gifRating = respGifs[i].rating;
+                    ratingP = $("<p>"),
+                    gifRating = respGifs[i].rating,
+                    titleP = $("<p>"),
+                    title = respGifs[i].title.slice(0, -4); //trims off default ' GIF' at end of every title
 
                 //sets attributes to the new image
                 newGif.attr({"src": gifStill, "data-still": gifStill, "data-active": gifActive, "data-status": "still", "class": "img-fluid animalGif"});
 
                 //adds class and text to the new paragraph
-                para.html('Rating: <span class="gifRating">' + gifRating + "</span>").addClass("gifLabel");
+                ratingP.html('Rating: <span class="gifRating">' + gifRating + "</span>").addClass("gifLabel");
+                titleP.text(title).addClass("gifTitle");
+                
 
                 //appends image and paragraph to new div
-                newDiv.append(newGif, para).addClass("gifDiv");
+                newDiv.append(titleP, newGif, ratingP).addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
                 $gifsDiv.append(newDiv);              
@@ -103,17 +107,20 @@ $(document).ready(function() {
                     newGif = $("<img>"),
                     gifStill = respGifs[i].images.fixed_width_still.url,
                     gifActive = respGifs[i].images.fixed_width.url,
-                    para = $("<p>"),
-                    gifRating = respGifs[i].rating;
+                    ratingP = $("<p>"),
+                    gifRating = respGifs[i].rating,
+                    titleP = $("<p>"),
+                    title = respGifs[i].title.slice(0, -4); //trims off default ' GIF' at end of every title 
 
                 //sets attributes to the new image
                 newGif.attr({"src": gifStill, "data-still": gifStill, "data-active": gifActive, "data-status": "still", "class": "img-fluid animalGif"});
 
                 //adds class and text to the new paragraph
-                para.html('Rating: <span class="gifRating">' + gifRating + "</span>").addClass("gifLabel");
+                ratingP.html('Rating: <span class="gifRating">' + gifRating + "</span>").addClass("gifLabel");
+                titleP.text(title).addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newDiv.append(newGif, para).addClass("gifDiv");
+                newDiv.append(titleP, newGif, ratingP).addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
                 $gifsDiv.prepend(newDiv);             
