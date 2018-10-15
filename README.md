@@ -1,6 +1,6 @@
 # GifTastic!
 
-This is a gif generator that uses the GIPHY API to generate a webpage of gif's of the users choice. This particular generator is animal themed.
+This is a gif generator that uses the GIPHY API to generate a webpage of gif's of the users choice. This particular generator is animal themed. You can view the deployed project [here](https://chrishuman0923.github.io/GifTastic/).
 
 # General Use
 
