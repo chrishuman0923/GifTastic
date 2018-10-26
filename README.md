@@ -4,7 +4,7 @@ This is a gif generator that uses the GIPHY API to generate a webpage of gif's o
 
 # General Use
 
-Once the page loads, the user will have a pre-defined list of animals that they can get gif's for. They simply click the button and the webpage returns 10 gif's from the GIPHY API. They gif's are still when first loaded but the user can click each gif to animate it and "pause" it again. The user can also submit their own idea's and the page will render the submission as a new button that they can click to retreive gif's.
+Once the page loads, the user will have a pre-defined list of animals that they can get gif's for. They simply click the button and the webpage returns 10 gif's from the GIPHY API. They gif's are still when first loaded but the user can click each gif to animate it and click to "pause" it again. The user can also submit their own animals and the page will render the submission as a new button that they can click to retreive gif's.
 
 # Notes
 
@@ -13,6 +13,7 @@ All of the generator's behavior and functionality takes place without the browse
 # Languages/Libraries/Concepts Used
 - HTML 5
 - CSS 3
+- Bootstrap
 - Javascript
 - JQuery
 - API's
