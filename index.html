@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-us">
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
         <!-- Bootstrap CDN -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <!-- Custom CSS -->
@@ -9,11 +11,10 @@
     </head>
     <body>
         <div class="container">
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h1 class="display-4">GifTastic!</h1>
-                    <h2 class="lead">Gif Image Generator</h2>
-                </div>
+            <div class="jumbotron jumbotron-fluid header">
+                <img id="headerImg" src="./assets/images/animal_montage.jpg" alt="Animal Montage">
+                <h1 class="display-4">GifTastic!</h1>
+                <h2 class="lead">Gif Image Generator</h2>
             </div>
             <form id="addAnimalForm">
                 <div class="form-group">
@@ -22,32 +23,23 @@
                 </div>
                 <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
             </form>
-            <!-- Container for the buttons -->
+            <!-- Gif buttons -->
             <form id="gifSelector">
-                <div class="form-group" id="ratingSelect">
-                    <label for="ratingDropdown">Gif Rating</label>
-                    <select class="form-control" id="ratingDropdown">
-                        <option>All</option>
-                        <option>G</option>
-                        <option>PG</option>
-                        <option>PG-13</option>
-                        <option>R</option>
-                        <option>NC-17</option>
-                    </select>
-                </div>
                 <div id="buttons">
                 </div>
             </form>
-            <!-- Additional Gifs button -->
+            <!-- Button to add gif's -->
             <button type="submit" class="btn btn-danger" id="addBtn">+10 Gifs</button>
-            <!-- Container for the Gifs -->
+            <!-- Gif's -->
             <div id="gifs">
             </div>
         </div>
+
         <!-- JQuery CDN -->
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
         <!-- Bootstrap JS -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <!-- Custom JS -->
         <script src="assets/javascript/app.js"></script>
+    </body>
 </html>

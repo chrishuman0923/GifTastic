@@ -41,17 +41,10 @@ $(document).ready(function() {
     function getGifs(animal) {
         //prevent page from refreshing
         event.preventDefault();
-        
-        var rating = "";
 
         //sets original limit and new limit for API request and loop
         url.lowerLimit = 0;
         url.upperLimit = 10;
-        
-        //set rating limiter
-        if ($elems.ratingDropdown.val() !== "All") {
-            rating = $elems.ratingDropdown.val().toLowerCase();
-        }
 
         //sets requested URL
         var giphyURL = [
@@ -60,8 +53,6 @@ $(document).ready(function() {
                 url.apiKey,
                 "&limit=",
                 url.upperLimit,
-                "&rating=",
-                rating
             ].join("");
 
         //sets variable so additional gifs can be added of the same animal
@@ -117,21 +108,14 @@ $(document).ready(function() {
             }
         }).catch(function(error) {
             //catches the error returned by the ajax call and logs it
-            console.log(`Error: ${error}`);
+            console.log('Error: ' + error);
         });
     }
 
     function additionalGifs(animal) {
-        var rating = "";
-
         //sets original limit and new limit for API request and loop
         url.lowerLimit += 10;
         url.upperLimit += 10;
-
-        //set rating limiter
-        if ($elems.ratingDropdown.val() !== "All") {
-            rating = $elems.ratingDropdown.val();
-        }
 
         //Sets requested URL
         var giphyURL = [
@@ -140,8 +124,6 @@ $(document).ready(function() {
                 url.apiKey,
                 "&limit=",
                 url.upperLimit,
-                "&rating=",
-                rating
             ].join("");
 
         $.ajax({
@@ -186,7 +168,7 @@ $(document).ready(function() {
             }
         }).catch(function(error) {
             //catches the error returned by the ajax call and logs it
-            console.log(`Error: ${error}`);
+            console.log('Error: ' + error);
         });
     }
 
