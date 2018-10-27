@@ -48,14 +48,18 @@ p {
 }
 
 .gifDiv {
-    float: left;
-    margin: 20px 20px 0 0;
-    border: 3px black solid;
-    padding: 5px;
+    margin-top: 15px;
+    border: 1px black solid;
+}
+
+#gifs {
+    margin: 0;
 }
 
 .animalGif {
-    height: 200px;
+    display: block;
+    margin: 0 auto;
+    height: 170px;
 }
 
 .animalGif:hover {
@@ -73,6 +77,10 @@ p {
     margin-bottom: 5px;
     text-align: center;
     text-transform: capitalize;
+}
+
+.gifRating {
+    text-transform: uppercase;
 }
 
 @media only screen and (max-width: 820px) {

@@ -4,6 +4,7 @@ $(document).ready(function() {
         $buttons = $('#buttons'),
         $gifs = $('#gifs'),
         $addBtn = $("#addBtn"),
+        $input = $("#animalInput"),
         url = "https://api.giphy.com/v1/gifs/search?api_key=fzMl3W1ysk8S6fEQQBU0T8uvRN7cFFf8",
         lowerLimit,
         upperLimit,
@@ -40,7 +41,7 @@ $(document).ready(function() {
         lowerLimit = 0;
         upperLimit = 10;
 
-        //sets requested URL
+        //sets request URL
         var requestURL = [
                 url,
                 '&q=',
@@ -52,53 +53,48 @@ $(document).ready(function() {
         //sets variable so additional gifs can be added of the same animal
         animalRef = animal;
 
-        //Makes additional gif button visible, if it is hidden
-        if ($addBtn.is(":hidden") == true) {
-            $addBtn.show();
-        }
+        //Makes additional gif button visible
+        $addBtn.show();
 
         $.ajax({
             url: requestURL,
             method: "GET"
-        }).then(function(response) {
-            //response array
-            var respGifs = response.data;
-
+        }).then(function(resp) {
             //empty the div
             $gifs.empty();
 
-            //Loops through the images returned
-            for (var i = lowerLimit; i < respGifs.length; i++) {
-                //creates a new image
-                var newElems = {
-                        div: $("<div>"),
-                        img: $("<img>"),
-                        rating: $("<p>"),
-                        title: $("<p>")
-                    },
-                    gifStill = respGifs[i].images.fixed_width_still.url,
-                    gifActive = respGifs[i].images.fixed_width.url,
-                    title = respGifs[i].title.slice(0, -4); //trims off ' GIF' at end of every title
+            var data = resp.data;
 
-                //sets attributes to the new image
-                newElems.img.attr({
-                    "src": gifStill,
-                    "data-still": gifStill,
-                    "data-active": gifActive,
+            //Loops through the images returned
+            for (var i = lowerLimit; i < data.length; i++) {
+                //creates a new image
+                var gif = data[i],
+                    div = $("<div>"),
+                    img = $("<img>"),
+                    p = $("<p>"),
+                    rating = $("<p>"),
+                    title = gif.title.slice(0, -4); //trims off ' GIF' at end of title
+
+                //sets attributes for the new image
+                img.attr({
+                    "src": gif.images.fixed_width_still.url,
+                    "data-still": gif.images.fixed_width_still.url,
+                    "data-active": gif.images.fixed_width.url,
                     "data-status": "still",
                     "class": "img-fluid animalGif"
                 });
 
                 //adds class and text to the new paragraphs
-                newElems.rating.html('Rating: <span class="gifRating">' +
-                                    respGifs[i].rating + "</span>").addClass("gifLabel");
-                newElems.title.text(title).addClass("gifTitle");
+                rating.html('Rating: <span class="gifRating">' + 
+                    gif.rating + "</span>").addClass("gifLabel");
+
+                p.text(title).addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newElems.div.append(newElems.title, newElems.img, newElems.rating).addClass("gifDiv");
+                div.append(p, img, rating).addClass("col-lg-4 col-md-6 col-sm-12 gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $gifs.append(newElems.div);              
+                $gifs.append(div);              
             }
         }).catch(function(err) {
             //catches the error returned by the ajax call and logs it
@@ -123,42 +119,40 @@ $(document).ready(function() {
         $.ajax({
             url: requestURL,
             method: "GET"
-        }).then(function(response) {
+        }).then(function(resp) {
             //after a successful returned response
-            var respGifs = response.data;
+            var data = resp.data;
 
             //Loops through the images returned
-            for (var i = lowerLimit; i < respGifs.length; i++) {
+            for (var i = lowerLimit; i < data.length; i++) {
                 //creates a new image
-                var newElems = {
-                        div: $("<div>"),
-                        img: $("<img>"),
-                        rating: $("<p>"),
-                        title: $("<p>")
-                    },
-                    gifStill = respGifs[i].images.fixed_width_still.url,
-                    gifActive = respGifs[i].images.fixed_width.url,
-                    title = respGifs[i].title.slice(0, -4); //trims off default ' GIF' at end of every title 
+                var gif = data[i],
+                    div = $("<div>"),
+                    img = $("<img>"),
+                    p = $("<p>"),
+                    rating = $("<p>"),
+                    title = gif.title.slice(0, -4); //trims off default ' GIF' at end of every title 
 
-                //sets attributes to the new image
-                newElems.img.attr({
-                    "src": gifStill,
-                    "data-still": gifStill,
-                    "data-active": gifActive,
+                //sets attributes for the image
+                img.attr({
+                    "src": gif.images.fixed_width_still.url,
+                    "data-still": gif.images.fixed_width_still.url,
+                    "data-active": gif.images.fixed_width.url,
                     "data-status": "still",
                     "class": "img-fluid animalGif"
                 });
 
                 //adds class and text to the new paragraph
-                newElems.rating.html('Rating: <span class="gifRating">' +
-                                    respGifs[i].rating + "</span>").addClass("gifLabel");
-                newElems.title.text(title).addClass("gifTitle");
+                rating.html('Rating: <span class="gifRating">' +
+                    gif.rating + "</span>").addClass("gifLabel");
+
+                p.text(title).addClass("gifTitle");
 
                 //appends image and paragraph to new div
-                newElems.div.append(newElems.title, newElems.img, newElems.rating).addClass("gifDiv");
+                div.append(p, img, rating).addClass("col-lg-4 col-md-6 col-sm-6 gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $gifs.prepend(newElems.div);             
+                $gifs.prepend(div);             
             }
         }).catch(function(err) {
             //catches the error returned by the ajax call and logs it
@@ -168,20 +162,20 @@ $(document).ready(function() {
 
     function animateGif() {
         //gets attributes of the gif that was clicked
-        var selectedGif = $(this),
-            gifStatus = selectedGif.attr("data-status"),
-            stillURL = selectedGif.attr("data-still"),
-            activeURL = selectedGif.attr("data-active");
+        var gif = $(this),
+            status = gif.attr("data-status"),
+            still = gif.attr("data-still"),
+            animated = gif.attr("data-active");
 
         //sets the image to animate or still based on current status
-        if (gifStatus === "still") {
-            selectedGif.attr({
-                "src": activeURL,
+        if (status === "still") {
+            gif.attr({
+                "src": animated,
                 "data-status": "active"
             });
         } else {
-            selectedGif.attr({
-                "src": stillURL,
+            gif.attr({
+                "src": still,
                 "data-status": "still"
             });
         }
@@ -192,7 +186,7 @@ $(document).ready(function() {
         event.preventDefault();
 
         //get input field and standardize
-        var newAnimal = $("#animalInput").val().trim().toLowerCase();
+        var newAnimal = $input.val().trim().toLowerCase();
 
         //add value to array, if it hasn't been already
         if (animalsArr.indexOf(newAnimal) === -1 && newAnimal.length > 0) {
@@ -200,9 +194,9 @@ $(document).ready(function() {
         }
 
         //Empty input field
-        $("#animalInput").val("");
+        $input.val("");
 
-        //re-create buttons array
+        //re-create buttons
         createBtns();
     }
 
@@ -224,9 +218,9 @@ $(document).ready(function() {
         additionalGifs(animalRef);
     });
 
-    //hide additional button initially
+    //hide 'Add Gif' button initially
     $addBtn.hide();
 
-    //create buttons
+    //create animal buttons
     createBtns();
 });
