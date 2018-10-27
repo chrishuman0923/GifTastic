@@ -25,17 +25,13 @@ h1, h2 {
     padding: 10px;
 }
 
-#gifSelector {
+#buttons {
     margin-bottom: 15px;
     border: 5px #28a745 dashed;
 }
 
 label {
     font-weight: bold;
-}
-
-.gifRating {
-    text-transform: uppercase;
 }
 
 .animalBtn {

@@ -1,40 +1,34 @@
 //waits till DOM is ready before running any JS
 $(document).ready(function() {
-    var topics = ["dog", "cat", "bird", "horse", "snake", "rabbit", "wolf", "otter"],
-        $elems = {
-           btnDiv: $("#buttons"),
-           gifsDiv: $("#gifs"),
-           addBtn: $("#addBtn"),
-           ratingDropdown: $("#ratingDropdown")
-        },
-        url = {
-            addr: "https://api.giphy.com/v1/gifs/search?q=",
-            apiKey: "&api_key=fzMl3W1ysk8S6fEQQBU0T8uvRN7cFFf8",
-            lowerLimit: 0,
-            upperLimit: 10
-        },
+    var animalsArr = ["dog", "cat", "bird", "horse", "snake", "rabbit", "wolf", "otter"],
+        $buttons = $('#buttons'),
+        $gifs = $('#gifs'),
+        $addBtn = $("#addBtn"),
+        url = "https://api.giphy.com/v1/gifs/search?api_key=fzMl3W1ysk8S6fEQQBU0T8uvRN7cFFf8",
+        lowerLimit,
+        upperLimit,
         animalRef;
 
     function createBtns() {
         //sorts array alphabetically
-        var topicsSort = topics.sort();
+        var arrSort = animalsArr.sort();
 
         //empty the div
-        $elems.btnDiv.empty();
+        $buttons.empty();
 
-        //loops through the array of topics
-        for (var i = 0; i < topicsSort.length; i++) {
-            //creates a new button elem
+        //loops through the array of animals
+        for (var i = 0; i < arrSort.length; i++) {
+            //creates a new button
             var newBtn = $("<button>");
 
             //adds attributes and text to the button
             newBtn.attr({
-                "data-animal": topicsSort[i],
+                "data-animal": arrSort[i],
                 "class": "btn btn-success animalBtn"
-            }).text(topicsSort[i]);
+            }).text(arrSort[i]);
 
             //appends the new button to the DOM
-            $elems.btnDiv.append(newBtn);
+            $buttons.append(newBtn);
         }
     }
 
@@ -42,39 +36,39 @@ $(document).ready(function() {
         //prevent page from refreshing
         event.preventDefault();
 
-        //sets original limit and new limit for API request and loop
-        url.lowerLimit = 0;
-        url.upperLimit = 10;
+        //sets original lower and upper limits for API request
+        lowerLimit = 0;
+        upperLimit = 10;
 
         //sets requested URL
-        var giphyURL = [
-                url.addr,
+        var requestURL = [
+                url,
+                '&q=',
                 animal,
-                url.apiKey,
                 "&limit=",
-                url.upperLimit,
+                upperLimit,
             ].join("");
 
         //sets variable so additional gifs can be added of the same animal
         animalRef = animal;
 
         //Makes additional gif button visible, if it is hidden
-        if ($elems.addBtn.is(":hidden") == true) {
-            $elems.addBtn.show();
+        if ($addBtn.is(":hidden") == true) {
+            $addBtn.show();
         }
 
         $.ajax({
-            url: giphyURL,
+            url: requestURL,
             method: "GET"
         }).then(function(response) {
             //response array
             var respGifs = response.data;
 
             //empty the div
-            $elems.gifsDiv.empty();
+            $gifs.empty();
 
             //Loops through the images returned
-            for (var i = url.lowerLimit; i < respGifs.length; i++) {
+            for (var i = lowerLimit; i < respGifs.length; i++) {
                 //creates a new image
                 var newElems = {
                         div: $("<div>"),
@@ -104,37 +98,37 @@ $(document).ready(function() {
                 newElems.div.append(newElems.title, newElems.img, newElems.rating).addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $elems.gifsDiv.append(newElems.div);              
+                $gifs.append(newElems.div);              
             }
-        }).catch(function(error) {
+        }).catch(function(err) {
             //catches the error returned by the ajax call and logs it
-            console.log('Error: ' + error);
+            console.log('Error: ' + err);
         });
     }
 
     function additionalGifs(animal) {
-        //sets original limit and new limit for API request and loop
-        url.lowerLimit += 10;
-        url.upperLimit += 10;
+        //sets new lower and upper limits for API request
+        lowerLimit += 10;
+        upperLimit += 10;
 
         //Sets requested URL
-        var giphyURL = [
-                url.addr,
+        var requestURL = [
+                url,
+                '&q=',
                 animal,
-                url.apiKey,
                 "&limit=",
-                url.upperLimit,
+                upperLimit,
             ].join("");
 
         $.ajax({
-            url: giphyURL,
+            url: requestURL,
             method: "GET"
         }).then(function(response) {
             //after a successful returned response
             var respGifs = response.data;
 
             //Loops through the images returned
-            for (var i = url.lowerLimit; i < respGifs.length; i++) {
+            for (var i = lowerLimit; i < respGifs.length; i++) {
                 //creates a new image
                 var newElems = {
                         div: $("<div>"),
@@ -164,11 +158,11 @@ $(document).ready(function() {
                 newElems.div.append(newElems.title, newElems.img, newElems.rating).addClass("gifDiv");
 
                 //appends the image and the paragraph to the DOM
-                $elems.gifsDiv.prepend(newElems.div);             
+                $gifs.prepend(newElems.div);             
             }
-        }).catch(function(error) {
+        }).catch(function(err) {
             //catches the error returned by the ajax call and logs it
-            console.log('Error: ' + error);
+            console.log('Error: ' + err);
         });
     }
 
@@ -201,8 +195,8 @@ $(document).ready(function() {
         var newAnimal = $("#animalInput").val().trim().toLowerCase();
 
         //add value to array, if it hasn't been already
-        if (topics.indexOf(newAnimal) === -1 && newAnimal.length > 0) {
-            topics.push(newAnimal);
+        if (animalsArr.indexOf(newAnimal) === -1 && newAnimal.length > 0) {
+            animalsArr.push(newAnimal);
         }
 
         //Empty input field
@@ -231,7 +225,7 @@ $(document).ready(function() {
     });
 
     //hide additional button initially
-    $elems.addBtn.hide();
+    $addBtn.hide();
 
     //create buttons
     createBtns();
